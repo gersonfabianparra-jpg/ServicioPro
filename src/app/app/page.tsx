@@ -13,14 +13,15 @@ import {
 import { signOutAction } from "@/app/auth/actions";
 import { ensureUserOrganization } from "@/lib/organizations";
 import { createClient } from "@/lib/supabase/server";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 const navItems = [
-  { label: "Dashboard", icon: LayoutDashboard, active: true },
-  { label: "Ordenes", icon: ClipboardCheck },
-  { label: "Clientes", icon: Users },
-  { label: "Agenda", icon: CalendarDays },
-  { label: "Informes", icon: FileText },
+  { label: "Dashboard", icon: LayoutDashboard, href: "/app", active: true },
+  { label: "Ordenes", icon: ClipboardCheck, href: "/app/orders" },
+  { label: "Clientes", icon: Users, href: "/app/customers" },
+  { label: "Agenda", icon: CalendarDays, href: "/app/schedule" },
+  { label: "Informes", icon: FileText, href: "/app/reports" },
 ];
 
 const workOrders = [
@@ -58,8 +59,9 @@ export default async function AppDashboard() {
 
           <nav className="grid gap-2">
             {navItems.map((item) => (
-              <button
+              <Link
                 key={item.label}
+                href={item.href}
                 className={`flex items-center gap-3 rounded-md px-3 py-3 text-left text-sm font-bold transition ${
                   item.active
                     ? "bg-ink text-white"
@@ -68,7 +70,7 @@ export default async function AppDashboard() {
               >
                 <item.icon size={18} aria-hidden="true" />
                 {item.label}
-              </button>
+              </Link>
             ))}
           </nav>
 
