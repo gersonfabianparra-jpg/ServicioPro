@@ -2,6 +2,7 @@ import {
   CalendarDays,
   ClipboardCheck,
   Clock3,
+  LogOut,
   FileText,
   LayoutDashboard,
   Plus,
@@ -9,6 +10,10 @@ import {
   Users,
   Wrench,
 } from "lucide-react";
+import { signOutAction } from "@/app/auth/actions";
+import { ensureUserOrganization } from "@/lib/organizations";
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, active: true },
@@ -25,7 +30,18 @@ const workOrders = [
   { code: "OT-1031", client: "Restaurant Alameda", tech: "Camila F.", status: "Terminado", value: "$95.000" },
 ];
 
-export default function AppDashboard() {
+export default async function AppDashboard() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  await ensureUserOrganization(user.id, user.email);
+
   return (
     <main className="min-h-screen bg-paper text-ink">
       <div className="grid min-h-screen lg:grid-cols-[260px_1fr]">
@@ -36,7 +52,7 @@ export default function AppDashboard() {
             </div>
             <div>
               <p className="font-black">ServicioPro</p>
-              <p className="text-xs text-ink/55">Panel operativo</p>
+              <p className="text-xs text-ink/55">{user.email}</p>
             </div>
           </div>
 
@@ -55,6 +71,13 @@ export default function AppDashboard() {
               </button>
             ))}
           </nav>
+
+          <form action={signOutAction} className="mt-8">
+            <button className="flex w-full items-center gap-3 rounded-md border border-ink/10 px-3 py-3 text-left text-sm font-bold text-ink/68 transition hover:bg-paper hover:text-ink">
+              <LogOut size={18} aria-hidden="true" />
+              Salir
+            </button>
+          </form>
         </aside>
 
         <section className="px-5 py-5 sm:px-8 lg:px-10">

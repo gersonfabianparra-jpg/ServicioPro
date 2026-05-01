@@ -68,7 +68,7 @@ export default function Home() {
               <a href="#infra">Infraestructura</a>
             </nav>
             <a
-              href="/app"
+              href="/login"
               className="rounded-md bg-clay px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:bg-clay/90"
             >
               Entrar
@@ -90,10 +90,10 @@ export default function Home() {
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
-                  href="/app"
+                  href="/register"
                   className="rounded-md bg-ink px-5 py-3 text-sm font-bold text-white transition hover:bg-ink/90"
                 >
-                  Ver panel
+                  Crear cuenta
                 </a>
                 <a
                   href="#modelo"
