@@ -30,3 +30,7 @@ cp .env.example .env.local
 ## Supabase
 
 El esquema inicial esta en `supabase/schema.sql`.
+
+## Plan de trabajo
+
+El roadmap del producto esta documentado en `ROADMAP.md`.
